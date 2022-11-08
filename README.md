@@ -1,40 +1,57 @@
+
+<!-- README.md is generated from README.Rmd. Please edit that file -->
+
 # mypackage
-Heading
-=======
 
-Sub-heading
------------
+<!-- badges: start -->
 
-# Alternative heading #
+[![R-CMD-check](https://github.com/Gyijun/mypackage/actions/workflows/R-CMD-check.yaml/badge.svg)](https://github.com/Gyijun/mypackage/actions/workflows/R-CMD-check.yaml)
+<!-- badges: end -->
 
-Paragraphs are separated 
-by a blank line.
+The goal of mypackage is to …
 
-Two spaces at the end of a line  
-produce a line break.
+## Installation
 
-Text attributes _italic_, **bold**, `monospace`.
+You can install the development version of mypackage from
+[GitHub](https://github.com/) with:
 
-Horizontal rule:
+``` r
+# install.packages("devtools")
+devtools::install_github("Gyijun/mypackage")
+```
 
----
+## Example
 
-Bullet lists nested within numbered list:
+This is a basic example which shows you how to solve a common problem:
 
-  1. fruits
-     * apple
-     * banana
-  2. vegetables
-     - carrot
-     - broccoli
+``` r
+library(mypackage)
+## basic example code
+```
 
-A [link](http://example.com).
+What is special about using `README.Rmd` instead of just `README.md`?
+You can include R chunks like so:
 
-![Image](Icon-pictures.png "icon")
+``` r
+summary(cars)
+#>      speed           dist       
+#>  Min.   : 4.0   Min.   :  2.00  
+#>  1st Qu.:12.0   1st Qu.: 26.00  
+#>  Median :15.0   Median : 36.00  
+#>  Mean   :15.4   Mean   : 42.98  
+#>  3rd Qu.:19.0   3rd Qu.: 56.00  
+#>  Max.   :25.0   Max.   :120.00
+```
 
-> Markdown uses email-style
-characters for blockquoting.
->
-> Multiple paragraphs need to be prepended individually.
+You’ll still need to render `README.Rmd` regularly, to keep `README.md`
+up-to-date. `devtools::build_readme()` is handy for this. You could also
+use GitHub Actions to re-render `README.Rmd` every time you push. An
+example workflow can be found here:
+<https://github.com/r-lib/actions/tree/v1/examples>.
 
-Most inline <abbr title="Hypertext Markup Language">HTML</abbr> tags are supported.
+You can also embed plots, for example:
+
+<img src="man/figures/README-pressure-1.png" width="100%" />
+
+In that case, don’t forget to commit and push the resulting figure
+files, so they display on GitHub and CRAN.
