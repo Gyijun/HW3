@@ -6,6 +6,8 @@
 <!-- badges: start -->
 
 [![R-CMD-check](https://github.com/Gyijun/mypackage/actions/workflows/R-CMD-check.yaml/badge.svg)](https://github.com/Gyijun/mypackage/actions/workflows/R-CMD-check.yaml)
+[![Codecov test
+coverage](https://codecov.io/gh/Gyijun/mypackage/branch/master/graph/badge.svg)](https://app.codecov.io/gh/Gyijun/mypackage?branch=master)
 <!-- badges: end -->
 
 The goal of mypackage is to …
