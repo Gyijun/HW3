@@ -5,9 +5,7 @@ Version: 0.1.0
 Date: 2022-11-17
 Author: Yijun Guo
 Maintainer: Yijun Guo <guoyijun@umich.edu>
-Description: modified_cov / modified_cor compute the covariance/correlation of x and y if these are vectors. If x is a matrix and y is not supplied, the covariances/correlations between columns of x are calculated. 
-If x and y are both supplied and are matrices, then the covariances/correlations between the columns of x and the columns of y are calculated. For all calculation above, x and y must be complete cases without missing value,
-and "pearson" is applied as the method.
+Description: modified_cov / modified_cor compute the covariance/correlation of x and y if these are vectors. If x is a matrix and y is not supplied, the covariances/correlations between columns of x are calculated. If x and y are both supplied and are matrices, then the covariances/correlations between the columns of x and the columns of y are calculated. For all calculation above, x and y must be complete cases without missing value,and "pearson" is applied as the method.
 URL: https://github.com/Gyijun/mypackage
 Depends: R (>= 3.5.0)
 LinkingTo: 
