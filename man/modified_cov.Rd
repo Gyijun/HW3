@@ -4,18 +4,55 @@
 \alias{modified_cov}
 \title{modified_cov}
 \usage{
-modified_cov(x, y = NULL, use = "all.obs", method = "pearson")
+modified_cov(x, y = NULL)
 }
 \arguments{
-\item{x, y}{input value}
+\item{x}{a numeric vector, matrix or data frame with complete cases.}
+
+\item{y}{NULL(default) or a numeric vector, matrix or data frame with complete cases and compatible dimensions to x.}
 }
 \value{
 the covariances between x,y or columns of x matrix
 }
 \description{
-Gets the covariance between two vectors or columns of matrices with complete cases under the method option "pearson".
+Gets the covariances between two vectors or columns of matrices with complete cases.
+}
+\details{
+A matrix/data frame for x or both x,y vectors/matrices should be given to calculate covariances.
+The inputs must be numeric or logical, without missing values. For modified_cov, covariances will be calculated under method "pearson", which produces same results for function cov(x,y,use="all.obs", method="pearson")
+The denominator n - 1 is used when computing unbiased estimators of the covariances for i.i.d. observations(when only one observation for x,y are given, the function will return NaN).
 }
 \examples{
-modified_cov(c(1,2,3,4),c(2,3,4,5))
+## For complete matrices and vectors with compatible dimensions.
+## x,y are both vectors with one element
+modified_cov(1,1) # NaN
 
+## x,y are both vectors
+modified_cov(c(1,3,5,FALSE),c(FALSE,TRUE,1,3)) # -1.083333
+## y is NULL, x is matrix
+x<-matrix(runif(1000,min=0,max=100),10,100)
+stopifnot(all.equal(cov(x,y=NULL,use="all.obs",method="pearson"), modified_cov(x)))
+
+## Both x,y are given
+x1<-matrix(runif(10,min=0,max=100),10,10)
+y1<-c(runif(10,min=0,max=100))
+stopifnot(all.equal(cov(x1,y1,use="all.obs",method="pearson"), modified_cov(x1,y1)))
+
+
+## Consider error conditions:
+## For complete matrices and vectors with incompatible dimensions
+modified_cov(matrix(c(runif(8,min=0,max=1)),2,4),c(1,2,3,4)) # Error: incompatible dimensions
+
+## For objects with missing values
+x3<-matrix(runif(5000,min=0,max=100),20,50)
+x3[10,6]=NA
+modified_cov(x3) # Error: missing observations in cov/cor
+
+## For objects not numeric/logical/atomic
+modified_cov(c(1,"def",TRUE,"abc"),c(1,2,3,4)) # Error: ((is.numeric(x) || is.logical(x)) & is.atomic(x)) is not TRUE
+
+
+}
+\seealso{
+modified_cor for pearson correlation computation for complete vectors/matrices.
 }
