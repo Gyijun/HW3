@@ -43,6 +43,7 @@
 #'## For objects not numeric/logical/atomic
 #'modified_cov(c(1,"def",TRUE,"abc"),c(1,2,3,4)) # Error: ((is.numeric(x) || is.logical(x)) & is.atomic(x)) is not TRUE
 #'
+#'@import Rcpp
 #'
 #'@export
 #'
@@ -69,9 +70,10 @@ modified_cov=function (x, y = NULL){
   if (!is.null(y)){
     stopifnot(((is.numeric(y)||is.logical(y))&is.atomic(y)))
   }
+  sourceCpp("src/code.cpp")
   if (!is.null(y)){
     if (isTRUE(nrow(x)==nrow(y)&(is.null(nrow(x))==FALSE))){
-      cov<-(t(x)-colMeans(x))%*%t(t(y)-colMeans(y))/(nrow(x)-1)
+      cov<-mat((t(x)-colMeans(x)),t(t(y)-colMeans(y)))/(nrow(x)-1)
       return(cov)
     }
     else if (isTRUE(length(x)==length(y)&(is.null(nrow(x))==TRUE))){
@@ -90,7 +92,17 @@ modified_cov=function (x, y = NULL){
       stop("incompatible dimensions")
   }
   else if(is.null(y)){
-    cov<-(t(x)-colMeans(x))%*%t(t(x)-colMeans(x))/(nrow(x)-1)
+    cov<-mat((t(x)-colMeans(x)),t(t(x)-colMeans(x)))/(nrow(x)-1)
     return(cov)
   }
 }
+
+
+
+
+
+
+
+
+
+

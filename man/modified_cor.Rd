@@ -51,7 +51,6 @@ modified_cor(x3) # Error: missing observations in cov/cor
 ## For objects not numeric/logical/atomic
 modified_cor(c(1,2,TRUE,"abc"),c(1,2,3,4)) # Error: ((is.numeric(x) || is.logical(x)) & is.atomic(x)) is not TRUE
 
-
 }
 \seealso{
 modified_cov for covariance computation for complete vectors/matrices.

@@ -9,7 +9,7 @@ Description: modified_cov / modified_cor compute the covariance/correlation of x
 URL: https://github.com/Gyijun/mypackage
 Depends: R (>= 3.5.0)
 LinkingTo: 
-    Rcpp
+    Rcpp,RcppArmadillo,RcppEigen
 Imports: 
     Rcpp
 Suggests: 

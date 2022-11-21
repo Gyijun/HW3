@@ -2,5 +2,6 @@
 
 export(modified_cor)
 export(modified_cov)
+import(Rcpp)
 importFrom(Rcpp,sourceCpp)
 useDynLib(mypackage, .registration = TRUE)

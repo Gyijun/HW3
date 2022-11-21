@@ -1,18 +1,10 @@
-#include <Rcpp.h>
-using namespace Rcpp;
+// [[Rcpp::depends(RcppArmadillo)]]
 
-// This is a simple example of exporting a C++ function to R. You can
-// source this function into an R session using the Rcpp::sourceCpp
-// function (or via the Source button on the editor toolbar). Learn
-// more about Rcpp at:
-//
-//   http://www.rcpp.org/
-//   http://adv-r.had.co.nz/Rcpp.html
-//   http://gallery.rcpp.org/
-//
+#include <RcppArmadillo.h>
 
 // [[Rcpp::export]]
-NumericVector timesTwo(NumericVector x) {
-  return x * 2;
-}
+SEXP mat(arma::mat A, arma::mat B){
+  arma::mat C = A * B;
 
+  return Rcpp::wrap(C);
+}

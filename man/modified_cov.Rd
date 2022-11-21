@@ -51,7 +51,6 @@ modified_cov(x3) # Error: missing observations in cov/cor
 ## For objects not numeric/logical/atomic
 modified_cov(c(1,"def",TRUE,"abc"),c(1,2,3,4)) # Error: ((is.numeric(x) || is.logical(x)) & is.atomic(x)) is not TRUE
 
-
 }
 \seealso{
 modified_cor for pearson correlation computation for complete vectors/matrices.

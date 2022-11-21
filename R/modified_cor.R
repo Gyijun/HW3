@@ -43,11 +43,13 @@
 #'## For objects not numeric/logical/atomic
 #'modified_cor(c(1,2,TRUE,"abc"),c(1,2,3,4)) # Error: ((is.numeric(x) || is.logical(x)) & is.atomic(x)) is not TRUE
 #'
+#'@import Rcpp
 #'
 #'@export
 #'
+#'
+
 modified_cor=function (x, y=NULL){
-  #browser()
   if (is.null(y)){
     if (any(is.na(x)))
       stop("missing observations in cov/cor")
@@ -73,9 +75,10 @@ modified_cor=function (x, y=NULL){
       stop("'y' must be numeric")
     }
   }
+  sourceCpp("src/code.cpp")
   if (!is.null(y)){
     if (isTRUE(nrow(x)==nrow(y)&(is.null(nrow(x))==FALSE))){
-      cov<-(t(x)-colMeans(x))%*%t(t(y)-colMeans(y))/(nrow(x)-1)
+      cov<-mat((t(x)-colMeans(x)),t(t(y)-colMeans(y)))/(nrow(x)-1)
       cor<-matrix(0,nrow(cov),ncol(cov))
       for (i in 1:nrow(cov)){
         for (j in 1:ncol(cov)){
@@ -109,7 +112,7 @@ modified_cor=function (x, y=NULL){
       stop("incompatible dimensions")
   }
   else if(is.null(y)){
-    cov<-(t(x)-colMeans(x))%*%t(t(x)-colMeans(x))/(nrow(x)-1)
+    cov<-mat((t(x)-colMeans(x)),t(t(x)-colMeans(x)))/(nrow(x)-1)
     cor<-matrix(0,nrow(cov),ncol(cov))
     for (i in 1:nrow(cov)){
       for (j in 1:ncol(cov)){
