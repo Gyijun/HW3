@@ -42,7 +42,7 @@ library(mypackage)
 
 ## Basic examples
 
-Here are some basic examples:
+Here are some basic examples to apply `modified_cov()` and `modified_cor()`:
 
 ```{r usage}
 # covariance computing
