@@ -36,9 +36,11 @@
 #'
 #'
 #'@import Rcpp
+#'@import stats
 #'
 #'@export
 #'
+library(Rcpp)
 modified_cov=function (x, y = NULL){
   #Validation of inputs
   if (is.null(y)){
