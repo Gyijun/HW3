@@ -4,7 +4,7 @@ output: rmarkdown::html_vignette
 author:
   -Yijun Guo
 description: >
-  Start here if this is your first time using mypackage. You'll learn how the functions can be   
+  Start here if this is your first time using mypackage. You'll learn how the functions can be  
   applied to calculate covariances and pearson correlations for complete matrix,data frame and 
   vectors. This vignette will also show how the functions in mypackage compare to base R   
   functions with complete cases and method option "pearson".
@@ -27,7 +27,7 @@ This part will briefly go over the main functions and introduce the basic operat
 
 ## Installation:
 ```{r setup}
-devtools::install_github("Gyijun/mypackage")
+install.packages("mypackage")
 ```
 
 

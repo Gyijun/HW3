@@ -36,7 +36,7 @@ devtools::install_github("Gyijun/mypackage")
 
 You can apply functions of mypackage by below operations:
 
-```{r usage}
+```{r }
 library(mypackage)
 ```
 
@@ -44,7 +44,7 @@ library(mypackage)
 
 Here are some basic examples to apply `modified_cov()` and `modified_cor()`:
 
-```{r usage}
+```{r }
 # covariance computing
 (cov<-modified_cov(matrix(c(rnorm(100,0,1),c(rnorm(100,0,1)),2,100))))
 
