@@ -70,10 +70,6 @@ When y is NULL(defult), calculation can be conducted between columns of x.
 
 ```
 
-We can demonstrate the simulation results graphically:
-```{r,echo=FALSE}
-plot(1:10,square(1:10))
-```
 
 
 If matrices/dataframes/vectors are provided in inputs:
@@ -84,12 +80,6 @@ If matrices/dataframes/vectors are provided in inputs:
 Like modified_cov, if both x,y only contain 1 element,the output will be NaN. 
 ```{r}
 
-```
-
-
-We can demonstrate the simulation results graphically for modified_cor function:
-```{r,echo=FALSE}
-plot(1:10,square(1:10))
 ```
 
 
@@ -104,9 +94,9 @@ When only one item is provided in vector form, the calculation can not be conduc
 
 Since the functions are designed for complete cases, there couldn't be missing value in the given vector and matrices,eg:
 ```{r}
-x3<-matrix(runif(5000,min=0,max=100),20,50)
-x3[10,6]=NA
-modified_cov(x3) # Error: missing observations in cov/cor
+#x3<-matrix(runif(5000,min=0,max=100),20,50)
+#x3[10,6]=NA
+#modified_cov(x3) # Error: missing observations in cov/cor
 ```
 
 
@@ -117,7 +107,7 @@ If both x,y are provided, then they should have compatible dimensions for matrix
 
 Numeric arguments(or logical) are expected as inputs. Inputs with character elements or are not atomic vectors can not be calculated.
 ```{r}
-modified_cov(c(1,"def",TRUE,"abc"),c(1,2,3,4)) # Error: ((is.numeric(x) || is.logical(x)) & is.atomic(x)) is not TRUE
+#modified_cov(c(1,"def",TRUE,"abc"),c(1,2,3,4)) # Error: ((is.numeric(x) || is.logical(x)) & is.atomic(x)) is not TRUE
 ```
 
 

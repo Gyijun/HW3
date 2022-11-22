@@ -27,7 +27,7 @@ The goal of mypackage is to calculate covariances and pearson correlation betwee
 
 You can install the development version of mypackage from [GitHub](https://github.com/) with:
 
-``` r
+``` {r}
 # install.packages("devtools")
 devtools::install_github("Gyijun/mypackage")
 ```

@@ -1,7 +1,7 @@
 
 <!-- README.md is generated from README.Rmd. Please edit that file -->
 
-# mypackage
+# Overview
 
 <!-- badges: start -->
 
@@ -10,7 +10,12 @@
 coverage](https://codecov.io/gh/Gyijun/mypackage/branch/master/graph/badge.svg)](https://app.codecov.io/gh/Gyijun/mypackage?branch=master)
 <!-- badges: end -->
 
-The goal of mypackage is to …
+The goal of mypackage is to calculate covariances and pearson
+correlation between two vectors or columns of matrices. -
+`modified_cov()` conducts covariances computing between vectors and
+columns of matrices with complete cases - `modified_cor()` conducts
+pearson correlation computing between vectors and columns of matrices
+with complete cases
 
 ## Installation
 
@@ -20,40 +25,54 @@ You can install the development version of mypackage from
 ``` r
 # install.packages("devtools")
 devtools::install_github("Gyijun/mypackage")
+#> Downloading GitHub repo Gyijun/mypackage@HEAD
+#> 
+#> * checking for file ‘/tmp/RtmpWj6Je2/remotes7e5314cfea93/Gyijun-mypackage-fb273cd/DESCRIPTION’ ... OK
+#> * preparing ‘mypackage’:
+#> * checking DESCRIPTION meta-information ... OK
+#> * cleaning src
+#> * checking for LF line-endings in source and make files and shell scripts
+#> * checking for empty or unneeded directories
+#> Omitted ‘LazyData’ from DESCRIPTION
+#> * building ‘mypackage_0.1.0.tar.gz’
+#> Warning in sprintf(gettext(fmt, domain = domain), ...) :
+#>   one argument not used by format 'invalid uid value replaced by that for user 'nobody''
+#> Warning: invalid uid value replaced by that for user 'nobody'
+#> Warning in sprintf(gettext(fmt, domain = domain), ...) :
+#>   one argument not used by format 'invalid gid value replaced by that for user 'nobody''
+#> Warning: invalid gid value replaced by that for user 'nobody'
+#> Installing package into '/home/guoyijun/R/x86_64-pc-linux-gnu-library/4.1'
+#> (as 'lib' is unspecified)
+#> Warning in i.p(...): installation of package '/tmp/RtmpWj6Je2/file7e5336e2fa19/
+#> mypackage_0.1.0.tar.gz' had non-zero exit status
 ```
 
-## Example
+## Usage
 
-This is a basic example which shows you how to solve a common problem:
+You can apply functions of mypackage by below operations:
 
 ``` r
 library(mypackage)
-## basic example code
 ```
 
-What is special about using `README.Rmd` instead of just `README.md`?
-You can include R chunks like so:
+## Basic examples
+
+Here are some basic examples to apply `modified_cov()` and
+`modified_cor()`:
 
 ``` r
-summary(cars)
-#>      speed           dist       
-#>  Min.   : 4.0   Min.   :  2.00  
-#>  1st Qu.:12.0   1st Qu.: 26.00  
-#>  Median :15.0   Median : 36.00  
-#>  Mean   :15.4   Mean   : 42.98  
-#>  3rd Qu.:19.0   3rd Qu.: 56.00  
-#>  Max.   :25.0   Max.   :120.00
+# covariance computing
+(cov<-modified_cov(matrix(c(rnorm(100,0,1),c(rnorm(100,0,1)),2,100))))
+#> Registered S3 methods overwritten by 'RcppEigen':
+#>   method               from         
+#>   predict.fastLm       RcppArmadillo
+#>   print.fastLm         RcppArmadillo
+#>   summary.fastLm       RcppArmadillo
+#>   print.summary.fastLm RcppArmadillo
+#>          [,1]
+#> [1,] 50.54163
+
+#pearson correlation computing
+(cor<-modified_cor(c(rnorm(100,0,1)),c(rnorm(100,0,1))))
+#> [1] 0.05659376
 ```
-
-You’ll still need to render `README.Rmd` regularly, to keep `README.md`
-up-to-date. `devtools::build_readme()` is handy for this. You could also
-use GitHub Actions to re-render `README.Rmd` every time you push. An
-example workflow can be found here:
-<https://github.com/r-lib/actions/tree/v1/examples>.
-
-You can also embed plots, for example:
-
-<img src="man/figures/README-pressure-1.png" width="100%" />
-
-In that case, don’t forget to commit and push the resulting figure
-files, so they display on GitHub and CRAN.
