@@ -9,7 +9,7 @@ modified_cor(x, y = NULL)
 \arguments{
 \item{x}{a numeric vector, matrix or data frame with complete cases.}
 
-\item{y}{NULL(default) or a numeric vector, matrix or data frame with complete cases and compatible dimensions to x.}
+\item{y}{NULL(default) or a numeric vector, matrix or data frame with complete cases and compatible dimensions to \code{x}.}
 }
 \value{
 the pearson correlation between x,y or columns of x matrix
@@ -18,9 +18,9 @@ the pearson correlation between x,y or columns of x matrix
 Gets the pearson correlation between two vectors or columns of matrices with complete cases.
 }
 \details{
-A matrix/data frame for x or both x,y vectors/matrices should be given to calculate pearson correlation.
-The inputs must be numeric or logical, without missing values. For modified_cor, pearson correlation will be calculated, which produces same results for function cor(x,y,use="all.obs", method="pearson")
-The denominator n - 1 is used when computing unbiased estimators of the covariances for i.i.d. observations(when only one observation for x,y are given, the function will return NaN).
+A matrix/data frame for \code{x} or both \code{x},\code{y} vectors/matrices should be given to calculate pearson correlation.
+The inputs must be numeric or logical, without missing values. For \code{modified_cor()}, pearson correlation will be calculated, which produces same results for function \code{cor(x,y,use="all.obs", method="pearson")}
+The denominator \code{n-1} is used when computing unbiased estimators of the covariances for i.i.d. observations(when only one observation for both \code{x}, \code{y} are given, the function will return \code{NaN}).
 }
 \examples{
 ## For complete matrices and vectors with compatible dimensions.
@@ -39,5 +39,5 @@ stopifnot(all.equal(cor(x1,y1,use="all.obs",method="pearson"), modified_cor(x1,y
 
 }
 \seealso{
-modified_cov for covariance computation for complete vectors/matrices.
+\code{\link[=modified_cov]{modified_cov()}} for covariance computation for complete vectors/matrices.
 }

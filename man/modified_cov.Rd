@@ -9,7 +9,7 @@ modified_cov(x, y = NULL)
 \arguments{
 \item{x}{a numeric vector, matrix or data frame with complete cases.}
 
-\item{y}{NULL(default) or a numeric vector, matrix or data frame with complete cases and compatible dimensions to x.}
+\item{y}{NULL(default) or a numeric vector, matrix or data frame with complete cases and compatible dimensions to \code{x}.}
 }
 \value{
 the covariances between x,y or columns of x matrix
@@ -18,9 +18,9 @@ the covariances between x,y or columns of x matrix
 Gets the covariances between two vectors or columns of matrices with complete cases.
 }
 \details{
-A matrix/data frame for x or both x,y vectors/matrices should be given to calculate covariances.
-The inputs must be numeric or logical, without missing values. For `modified_cov`, covariances will be calculated under method "pearson", which produces same results for function cov(x,y,use="all.obs", method="pearson")
-The denominator n - 1 is used when computing unbiased estimators of the covariances for i.i.d. observations(when only one observation for x,y are given, the function will return NaN).
+A matrix/data frame for \code{x} or both \code{x}, \code{y} vectors/matrices should be given to calculate covariances.
+The inputs must be numeric or logical, without missing values. For \code{modified_cov()}, covariances will be calculated under method \code{pearson}, which produces same results for function \code{cov(x,y,use="all.obs", method="pearson")}
+The denominator \code{n-1} is used when computing unbiased estimators of the covariances for i.i.d. observations(when only one observation for both \code{x}, \code{y} are given, the function will return \code{NaN}).
 }
 \examples{
 ## For complete matrices and vectors with compatible dimensions.
@@ -38,5 +38,5 @@ stopifnot(all.equal(cov(x1,y1,use="all.obs",method="pearson"), modified_cov(x1,y
 
 }
 \seealso{
-modified_cor for pearson correlation computation for complete vectors/matrices.
+\code{\link[=modified_cor]{modified_cor()}} for pearson correlation computation for complete vectors/matrices.
 }

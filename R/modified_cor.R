@@ -5,15 +5,15 @@
 #'@name modified_cor
 #'
 #'@param x a numeric vector, matrix or data frame with complete cases.
-#'@param y NULL(default) or a numeric vector, matrix or data frame with complete cases and compatible dimensions to x.
+#'@param y NULL(default) or a numeric vector, matrix or data frame with complete cases and compatible dimensions to \code{x}.
 #'
 #'@return the pearson correlation between x,y or columns of x matrix
 #'
-#'@details A matrix/data frame for x or both x,y vectors/matrices should be given to calculate pearson correlation.
-#'The inputs must be numeric or logical, without missing values. For modified_cor, pearson correlation will be calculated, which produces same results for function cor(x,y,use="all.obs", method="pearson")
-#'The denominator n - 1 is used when computing unbiased estimators of the covariances for i.i.d. observations(when only one observation for x,y are given, the function will return NaN).
+#'@details A matrix/data frame for \code{x} or both \code{x},\code{y} vectors/matrices should be given to calculate pearson correlation.
+#'The inputs must be numeric or logical, without missing values. For \code{modified_cor()}, pearson correlation will be calculated, which produces same results for function \code{cor(x,y,use="all.obs", method="pearson")}
+#'The denominator \code{n-1} is used when computing unbiased estimators of the covariances for i.i.d. observations(when only one observation for both \code{x}, \code{y} are given, the function will return \code{NaN}).
 #'
-#'@seealso modified_cov for covariance computation for complete vectors/matrices.
+#'@seealso \code{\link[=modified_cov]{modified_cov()}} for covariance computation for complete vectors/matrices.
 #'
 #'@examples
 #'## For complete matrices and vectors with compatible dimensions.
