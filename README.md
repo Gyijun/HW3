@@ -23,11 +23,12 @@ You can install the development version of mypackage from
 [GitHub](https://github.com/) with:
 
 ``` r
-# install.packages("devtools")
+library(devtools)
+#> Loading required package: usethis
 devtools::install_github("Gyijun/mypackage")
 #> Downloading GitHub repo Gyijun/mypackage@HEAD
 #> 
-#> * checking for file ‘/tmp/RtmpWj6Je2/remotes7e5314cfea93/Gyijun-mypackage-fb273cd/DESCRIPTION’ ... OK
+#> * checking for file ‘/tmp/RtmpLIMBZ5/remotes242247a408deb/Gyijun-mypackage-905d5e9/DESCRIPTION’ ... OK
 #> * preparing ‘mypackage’:
 #> * checking DESCRIPTION meta-information ... OK
 #> * cleaning src
@@ -43,8 +44,6 @@ devtools::install_github("Gyijun/mypackage")
 #> Warning: invalid gid value replaced by that for user 'nobody'
 #> Installing package into '/home/guoyijun/R/x86_64-pc-linux-gnu-library/4.1'
 #> (as 'lib' is unspecified)
-#> Warning in i.p(...): installation of package '/tmp/RtmpWj6Je2/file7e5336e2fa19/
-#> mypackage_0.1.0.tar.gz' had non-zero exit status
 ```
 
 ## Usage
@@ -70,9 +69,9 @@ Here are some basic examples to apply `modified_cov()` and
 #>   summary.fastLm       RcppArmadillo
 #>   print.summary.fastLm RcppArmadillo
 #>          [,1]
-#> [1,] 50.54163
+#> [1,] 50.46494
 
 #pearson correlation computing
 (cor<-modified_cor(c(rnorm(100,0,1)),c(rnorm(100,0,1))))
-#> [1] 0.05659376
+#> [1] -0.03641616
 ```
