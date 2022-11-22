@@ -29,9 +29,7 @@
 #'stopifnot(all.equal(cov(x1,y1,use="all.obs",method="pearson"), modified_cov(x1,y1)))
 #'
 #'
-#'@import Rcpp
-#'
-#'@import stats
+#'@import Rcpp stats devtools bench
 #'
 #'@export
 #'

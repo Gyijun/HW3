@@ -24,10 +24,12 @@ knitr::opts_chunk$set(
 ```
 
 
-```{r setup}
-install.packages("bench",repos = "http://cran.us.r-project.org")
+```{r setup,include=FALSE}
+library(mypackage)
+library(devtools)
 library(bench)
 ```
+
 
 ## Quick Start:
 
@@ -52,21 +54,23 @@ This part will briefly go over the main functions and introduce the basic operat
    - Installation of devtools
    
 ```{r}
-install.packages("devtools",repos = "http://cran.us.r-project.org")
-library(devtools)
+#install.packages("devtools",repos = "http://cran.us.r-project.org")
+#library(devtools)
+#library(usethis)
+#devtools::install_github("Gyijun/mypackage", build_vignettes = T)
 ```
    
    - Installation of mypackage
    
 ```{r}
-devtools::install_github("Gyijun/mypackage", build_vignettes = T)
+#devtools::install_github("Gyijun/mypackage", build_vignettes = T)
 ```
    
 
 ## Loading the package:
 
 ```{r}
-library(mypackage)
+#library(mypackage)
 ```
 
 * The function `modified_cov` returns covariances of two vectors or columns of matrices/data frames.

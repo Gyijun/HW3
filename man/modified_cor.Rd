@@ -36,7 +36,6 @@ y1<-c(runif(10,min=0,max=100))
 stopifnot(all.equal(cor(x1,y1,use="all.obs",method="pearson"), modified_cor(x1,y1)))
 
 
-
 }
 \seealso{
 \code{\link[=modified_cov]{modified_cov()}} for covariance computation for complete vectors/matrices.
