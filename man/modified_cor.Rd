@@ -33,23 +33,15 @@ modified_cor(c(1,2,3,TRUE,FALSE),c(FALSE,TRUE,4,7,0)) # 0.3019786
 x<-matrix(runif(1000,min=0,max=100),10,100)
 stopifnot(all.equal(cor(x,y=NULL,use="all.obs",method="pearson"), modified_cor(x)))
 
-## Both x,y are given
+## Both x,y are matrices
 x1<-matrix(runif(100,min=0,max=100),10,10)
 y1<-c(runif(10,min=0,max=100))
 stopifnot(all.equal(cor(x1,y1,use="all.obs",method="pearson"), modified_cor(x1,y1)))
 
 
-## Consider error conditions:
 ## For complete matrices and vectors with incompatible dimensions
 modified_cor(matrix(c(1,2,3,4,3,4,5,6),2,4),c(1,2,3,4)) # Error: incompatible dimensions
 
-## For objects with missing values
-x3<-matrix(runif(5000,min=0,max=100),20,50)
-x3[15,25]=NA
-modified_cor(x3) # Error: missing observations in cov/cor
-
-## For objects not numeric/logical/atomic
-modified_cor(c(1,2,TRUE,"abc"),c(1,2,3,4)) # Error: ((is.numeric(x) || is.logical(x)) & is.atomic(x)) is not TRUE
 
 }
 \seealso{

@@ -25,7 +25,7 @@
 #'x<-matrix(runif(1000,min=0,max=100),10,100)
 #'stopifnot(all.equal(cov(x,y=NULL,use="all.obs",method="pearson"), modified_cov(x)))
 #'
-#'## Both x,y are given
+#'## x,y are matrices/vectors
 #'x1<-matrix(runif(10,min=0,max=100),10,10)
 #'y1<-c(runif(10,min=0,max=100))
 #'stopifnot(all.equal(cov(x1,y1,use="all.obs",method="pearson"), modified_cov(x1,y1)))
@@ -48,6 +48,7 @@
 #'@export
 #'
 modified_cov=function (x, y = NULL){
+  #Validation of inputs
   if (is.null(y)){
     if (any(is.na(x)))
       stop("missing observations in cov/cor")
@@ -70,16 +71,22 @@ modified_cov=function (x, y = NULL){
   if (!is.null(y)){
     stopifnot(((is.numeric(y)||is.logical(y))&is.atomic(y)))
   }
+
+  #Import rcpp function "mat" to calculate product of matrices
   sourceCpp("src/code.cpp")
+
   if (!is.null(y)){
+    #Both x,y are matrices
     if (isTRUE(nrow(x)==nrow(y)&(is.null(nrow(x))==FALSE))){
       cov<-mat((t(x)-colMeans(x)),t(t(y)-colMeans(y)))/(nrow(x)-1)
       return(cov)
     }
+    #Both x,y are vectors
     else if (isTRUE(length(x)==length(y)&(is.null(nrow(x))==TRUE))){
       cov<-as.numeric(t(x-mean(x))%*%(y-mean(y))/(length(x)-1))
       return(cov)
     }
+    #One of x,y is matrix, the other is vector
     else if (isTRUE(nrow(x)==length(y)&(is.null(nrow(y))==TRUE))){
       cov<-(t(x)-colMeans(x))%*%(y-mean(y))/(nrow(x)-1)
       return(cov)
@@ -91,6 +98,7 @@ modified_cov=function (x, y = NULL){
     else
       stop("incompatible dimensions")
   }
+  #x is matrix, y is NULL
   else if(is.null(y)){
     cov<-mat((t(x)-colMeans(x)),t(t(x)-colMeans(x)))/(nrow(x)-1)
     return(cov)
