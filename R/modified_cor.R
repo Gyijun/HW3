@@ -36,7 +36,6 @@
 #'
 #'@export
 #'
-library(Rcpp)
 modified_cor=function (x, y=NULL){
   #Validation of inputs
   if (is.null(y)){

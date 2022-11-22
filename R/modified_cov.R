@@ -35,7 +35,6 @@
 #'
 #'@export
 #'
-library(Rcpp)
 modified_cov=function (x, y = NULL){
   #Validation of inputs
   if (is.null(y)){
@@ -82,7 +81,7 @@ modified_cov=function (x, y = NULL){
     }
     else if (isTRUE(length(x)==nrow(y)&(is.null(nrow(x))==TRUE))){
       cov<-(t(y)-colMeans(y))%*%(x-mean(x))/(nrow(y)-1)
-      return(cov)
+      return(t(cov))
     }
     else
       stop("incompatible dimensions")

@@ -3,6 +3,9 @@
 \name{modified_cov}
 \alias{modified_cov}
 \title{modified_cov}
+\usage{
+modified_cov(x, y = NULL)
+}
 \arguments{
 \item{x}{a numeric vector, matrix or data frame with complete cases.}
 

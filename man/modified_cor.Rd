@@ -3,6 +3,9 @@
 \name{modified_cor}
 \alias{modified_cor}
 \title{modified_cor}
+\usage{
+modified_cor(x, y = NULL)
+}
 \arguments{
 \item{x}{a numeric vector, matrix or data frame with complete cases.}
 
