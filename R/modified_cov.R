@@ -2,6 +2,8 @@
 #'
 #'Gets the covariances between two vectors or columns of matrices with complete cases.
 #'
+#'@name modified_cov
+#'
 #'@param x a numeric vector, matrix or data frame with complete cases.
 #'@param y NULL(default) or a numeric vector, matrix or data frame with complete cases and compatible dimensions to x.
 #'

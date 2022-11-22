@@ -2,6 +2,8 @@
 #'
 #'Gets the pearson correlation between two vectors or columns of matrices with complete cases.
 #'
+#'@name modified_cor
+#'
 #'@param x a numeric vector, matrix or data frame with complete cases.
 #'@param y NULL(default) or a numeric vector, matrix or data frame with complete cases and compatible dimensions to x.
 #'
@@ -39,7 +41,6 @@
 #'@import stats
 #'
 #'@export
-#'
 #'
 library(Rcpp)
 modified_cor=function (x, y=NULL){
