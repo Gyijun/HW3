@@ -65,7 +65,6 @@ modified_cor=function (x, y=NULL){
   }
 
   #Import rcpp function "mat" to calculate product of matrices
-  library(Rcpp)
   #sourceCpp("src/code.cpp")
 
   if (!is.null(y)){
