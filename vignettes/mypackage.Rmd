@@ -25,6 +25,7 @@ knitr::opts_chunk$set(
 
 
 ```{r setup}
+install.packages("bench",repos = "http://cran.us.r-project.org")
 library(bench)
 ```
 
