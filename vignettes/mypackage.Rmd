@@ -27,7 +27,8 @@ This part will briefly go over the main functions and introduce the basic operat
 
 ## Installation:
 ```{r setup}
-install.packages("mypackage")
+library(devtools)
+devtools::install_github("Gyijun/mypackage")
 ```
 
 
