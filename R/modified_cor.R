@@ -22,10 +22,6 @@
 #'
 #'## x,y are both vectors
 #'modified_cor(c(1,2,3,TRUE,FALSE),c(FALSE,TRUE,4,7,0)) # 0.3019786
-#
-#'## y is NULL, x is matrix
-#'x<-matrix(runif(1000,min=0,max=100),10,100)
-#'stopifnot(all.equal(cor(x,y=NULL,use="all.obs",method="pearson"), modified_cor(x)))
 #'
 #'## Both x,y are matrices
 #'x1<-matrix(runif(100,min=0,max=100),10,10)
@@ -33,11 +29,9 @@
 #'stopifnot(all.equal(cor(x1,y1,use="all.obs",method="pearson"), modified_cor(x1,y1)))
 #'
 #'
-#'## For complete matrices and vectors with incompatible dimensions
-#'modified_cor(matrix(c(1,2,3,4,3,4,5,6),2,4),c(1,2,3,4)) # Error: incompatible dimensions
-#'
 #'
 #'@import Rcpp
+#'
 #'@import stats
 #'
 #'@export
@@ -72,7 +66,8 @@ modified_cor=function (x, y=NULL){
   }
 
   #Import rcpp function "mat" to calculate product of matrices
-  sourceCpp("src/code.cpp")
+  library(Rcpp)
+  #sourceCpp("src/code.cpp")
 
   if (!is.null(y)){
     #Both x,y are matrices
@@ -95,7 +90,7 @@ modified_cor=function (x, y=NULL){
     #One of x,y is matrix, the other is vector
     else if (isTRUE(nrow(x)==length(y)&(is.null(nrow(y))==TRUE))){
       cov<-(t(x)-colMeans(x))%*%(y-mean(y))/(nrow(x)-1)
-      cor<-matrix(0,length(y),1)
+      cor<-matrix(0,ncol(x),1)
       for (i in 1:nrow(cov)){
         cor[i]<-cov[i]/(sd(x[,i])*sd(y))
       }
@@ -103,7 +98,7 @@ modified_cor=function (x, y=NULL){
     }
     else if (isTRUE(length(x)==nrow(y)&(is.null(nrow(x))==TRUE))){
       cov<-(t(y)-colMeans(y))%*%(x-mean(x))/(nrow(y)-1)
-      cor<-matrix(0,length(x),1)
+      cor<-matrix(0,ncol(y),1)
       for (i in 1:nrow(cov)){
         cor[i]<-cov[i]/(sd(x)*sd(y[,i]))
       }

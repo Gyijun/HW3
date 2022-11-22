@@ -26,18 +26,11 @@ modified_cov(1,1) # NaN
 
 ## x,y are both vectors
 modified_cov(c(1,3,5,FALSE),c(FALSE,TRUE,1,3)) # -1.083333
-## y is NULL, x is matrix
-x<-matrix(runif(1000,min=0,max=100),10,100)
-stopifnot(all.equal(cov(x,y=NULL,use="all.obs",method="pearson"), modified_cov(x)))
 
 ## x,y are matrices/vectors
 x1<-matrix(runif(10,min=0,max=100),10,10)
 y1<-c(runif(10,min=0,max=100))
 stopifnot(all.equal(cov(x1,y1,use="all.obs",method="pearson"), modified_cov(x1,y1)))
-
-
-## For complete matrices and vectors with incompatible dimensions
-modified_cov(matrix(c(runif(8,min=0,max=1)),2,4),c(1,2,3,4)) # Error: incompatible dimensions
 
 
 }
