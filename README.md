@@ -23,14 +23,17 @@ You can install the development version of mypackage from
 [GitHub](https://github.com/) with:
 
 ``` r
-library(devtools)
-#> Loading required package: usethis
-devtools::install_github("Gyijun/mypackage")
+#install.packages("devtools")
+#library(devtools)
+devtools::install_github("Gyijun/mypackage", build_vignettes = T)
 #> Downloading GitHub repo Gyijun/mypackage@HEAD
 #> 
-#> * checking for file ‘/tmp/RtmpLIMBZ5/remotes242247a408deb/Gyijun-mypackage-905d5e9/DESCRIPTION’ ... OK
+#> * checking for file ‘/tmp/RtmpS7AqK1/remotes247f41aac9955/Gyijun-mypackage-242d82f/DESCRIPTION’ ... OK
 #> * preparing ‘mypackage’:
 #> * checking DESCRIPTION meta-information ... OK
+#> * cleaning src
+#> * installing the package to build vignettes
+#> * creating vignettes ... OK
 #> * cleaning src
 #> * checking for LF line-endings in source and make files and shell scripts
 #> * checking for empty or unneeded directories
@@ -69,9 +72,9 @@ Here are some basic examples to apply `modified_cov()` and
 #>   summary.fastLm       RcppArmadillo
 #>   print.summary.fastLm RcppArmadillo
 #>          [,1]
-#> [1,] 50.46494
+#> [1,] 50.62481
 
 #pearson correlation computing
 (cor<-modified_cor(c(rnorm(100,0,1)),c(rnorm(100,0,1))))
-#> [1] -0.03641616
+#> [1] 0.1586424
 ```
