@@ -8,7 +8,7 @@
 #'@return the covariances between x,y or columns of x matrix
 #'
 #'@details A matrix/data frame for x or both x,y vectors/matrices should be given to calculate covariances.
-#'The inputs must be numeric or logical, without missing values. For modified_cov, covariances will be calculated under method "pearson", which produces same results for function cov(x,y,use="all.obs", method="pearson")
+#'The inputs must be numeric or logical, without missing values. For `modified_cov`, covariances will be calculated under method "pearson", which produces same results for function cov(x,y,use="all.obs", method="pearson")
 #'The denominator n - 1 is used when computing unbiased estimators of the covariances for i.i.d. observations(when only one observation for x,y are given, the function will return NaN).
 #'
 #'@seealso modified_cor for pearson correlation computation for complete vectors/matrices.
@@ -31,17 +31,9 @@
 #'stopifnot(all.equal(cov(x1,y1,use="all.obs",method="pearson"), modified_cov(x1,y1)))
 #'
 #'
-#'## Consider error conditions:
 #'## For complete matrices and vectors with incompatible dimensions
 #'modified_cov(matrix(c(runif(8,min=0,max=1)),2,4),c(1,2,3,4)) # Error: incompatible dimensions
 #'
-#'## For objects with missing values
-#'x3<-matrix(runif(5000,min=0,max=100),20,50)
-#'x3[10,6]=NA
-#'modified_cov(x3) # Error: missing observations in cov/cor
-#'
-#'## For objects not numeric/logical/atomic
-#'modified_cov(c(1,"def",TRUE,"abc"),c(1,2,3,4)) # Error: ((is.numeric(x) || is.logical(x)) & is.atomic(x)) is not TRUE
 #'
 #'@import Rcpp
 #'
