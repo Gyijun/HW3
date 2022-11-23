@@ -29,6 +29,7 @@ library(mypackage)
 library(devtools)
 library(bench)
 library(corrplot)
+library(ggplot)
 
 ```
 
