@@ -29,7 +29,7 @@
 #'stopifnot(all.equal(cov(x1,y1,use="all.obs",method="pearson"), modified_cov(x1,y1)))
 #'
 #'
-#'@import Rcpp stats devtools bench corrplot
+#'@import Rcpp stats devtools bench corrplot ggplot
 #'
 #'@export
 #'
