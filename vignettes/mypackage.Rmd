@@ -28,14 +28,49 @@ knitr::opts_chunk$set(
 library(mypackage)
 library(devtools)
 library(bench)
+library(corrplot)
+
 ```
+
+## Introduction
+
+### 1. Basic conceptions regarding covariance and pearson correlation
+
+Here are the basic formulas of covariance and pearson correlation(see details in [covariance](https://en.wikipedia.org/wiki/Covariance) and [pearson correlation](https://en.wikipedia.org/wiki/Pearson_correlation_coefficient). 
+
+$$
+\begin{aligned}
+&cov(X,Y)=E[(X- μ_{x})(Y-μ_{y})]\\
+&r_{xy}=\frac{\sum\limits_{i=1}^n(x_{i}-\bar{x})(y_{i}-\bar{y})}{(n-1)s_{x}s_{y}}\\
+\end{aligned}
+$$
+
+
+  -  $r_{xy}$ represents the pearson correlation coefficients;
+  
+  -  $s_{x}$, $s_{y}$ are sample standard deviations for $x$, $y$;
+  
+  -  $x$, $y$ are numeric vectors or columns of matrices with compatible dimensions;
+  
+  -  Notation: Some special samples in this tutorial which are not in normal distribution are just used to show the  function of package functions. Generally, pearson correlation should be applied to normal distributed samples.
+
+
+### 2. Difference between `modified_cor()`, `modified_cov()` and `cor(){stats}`, `cov(){stats}`
+
+* method : The basic R function `cor()` and `cov()` can calculate correlation/covariance under three options of `method` parameter: "spearman", "pearson"(default), "kendall"); `modified_cor()` and `modified_cov()` mainly calculate correlation/covariance under "pearson" method; 
+
+
+* use : `use` parameter in `cor()` and `cov()` includes four options: "everything", "all.obs", "complete.obs", "na.or.complete", or "pairwise.complete.obs", mainly indicate different treatments of missing values; `modified_cor()` and `modified_cov()` will use the "all.obs" option;
+
+
+* Treatment of data frames：When inputs are data frame, `cor()` and `cov()` will produce result with dimnames, while `modified_cor()`, `modified_cov()` will not keep dimnames. See details in the "Usage" part.
 
 
 ## Quick Start:
 
 This part will briefly go over the main functions and introduce the basic operations and outputs.
 
-## Installation:
+### 1. Installation:
 
 *  `mypackage` is based on [R] (>= 3.5.0), and can be downloaded from github.
 
@@ -51,112 +86,144 @@ This part will briefly go over the main functions and introduce the basic operat
 
    (2)  Here are example codes for installation on Windows system:
    
-   - Installation of devtools
+     `install.packages("devtools",repos = "http://cran.us.r-project.org")`
    
-```{r}
-#install.packages("devtools",repos = "http://cran.us.r-project.org")
-#library(devtools)
-#library(usethis)
-#devtools::install_github("Gyijun/mypackage", build_vignettes = T)
-```
+     `library(devtools)`
    
-   - Installation of mypackage
-   
-```{r}
-#devtools::install_github("Gyijun/mypackage", build_vignettes = T)
-```
-   
+     `devtools::install_github("Gyijun/mypackage", build_vignettes = T)`
 
-## Loading the package:
+### 2. Loading the package:
 
 ```{r}
-#library(mypackage)
+library(mypackage)
 ```
 
 * The function `modified_cov` returns covariances of two vectors or columns of matrices/data frames.
 
 * The function `modified_cor` returns pearson correlations of two vectors or columns of matrices/data frames.
 
-## Arguments
+### 3. Arguments
 
-As for argument, x must be provided in numeric vector/matrix/data frame form, y is defaulted to be NULL and can be vector/matrix/data frame. However, y must be provided when x is in vector form. y and x should have compatible dimensions and complete cases.
+As for argument, `x` must be provided in numeric vector/matrix/data frame form, `y` is defaulted to be NULL and can be vector/matrix/data frame. However, `y` must be provided when `x` is in vector form. `y` and `x` should have compatible dimensions and complete cases.
 
-## Usage
+### 4. Usage
 
-If matrices are provided in inputs:
+* If two matrices are provided in inputs:
 ```{r}
+x<-matrix(rnorm(50,0,1),5,10)
+y<-matrix(rnorm(50,0,1),5,10)
+(m1<-modified_cov(x,y))
+(m2<-modified_cor(x,y))
 
 ```
 
-When data frames are provided:
+* We can plot the result of pearson correlation computation:
 ```{r}
+corrplot(m2)
+```
+
+* We can also apply the functions on data frame objects. Here we use `mtcars`, an internal data set in R. The data set includes 32 observations and 11 variables. We select columns`drat`, `qsec` and `wt` as inputs of functions.
+
+```{r}
+
+dat<-mtcars[,c("qsec","wt","drat")]
+(m3<-modified_cov(dat))
+(m4<-modified_cor(dat))
+mymatrix<-matrix(m4,nrow = ncol(m4),byrow = TRUE,dimnames=list(c("qsec","wt","drat"),c("qsec","wt","drat")))
+corrplot(mymatrix)
 
 ```
 
-When x,y are both vectors:
+* We can see that there's high correlation between "wt" and "drat" variables. The restriction of `mypackage` function is that variable names cannot be added automatically to the result correlation/covariance matrices, which need more revision in the future versions.
+
+* When `x`,`y` are both vectors:
 ```{r}
+x<-c(rnorm(50,0,1))
+y<-c(rnorm(50,0,1))
+(m5<-modified_cov(x,y))
+(m6<-modified_cor(x,y))
 
 ```
 
-It should be noticed that when both x,y only contain 1 element,the output will be NaN.
+* It should be noticed that when both `x`,`y` only contain 1 element,the output will be `NaN`.
 ```{r}
-
+(modified_cov(1,TRUE))
+(modified_cor(1,FALSE))
 ```
 
-When y is NULL(defult), calculation can be conducted between columns of x.
+* When `y` is `NULL`(default), calculation can be conducted between columns of `x`.
 ```{r}
-
-```
-
-
-
-If matrices/dataframes/vectors are provided in inputs:
-```{r}
-
-```
-
-Like modified_cov, if both x,y only contain 1 element,the output will be NaN.
-```{r}
-
+x<-matrix(rnorm(500,0,1),50,10)
+(m7<-modified_cov(x))
+(m8<-modified_cor(x))
 ```
 
 
-## Error interpretation:
+### 5. Error interpretation:
 
-There are a few error conditions for modified_cov and modified_cor functions.
+There are a few error conditions for `modified_cov()` and `modified_cor()` functions.
 
-When only one item is provided in vector form, the calculation can not be conducted:
+* When only one item is provided in vector form, the calculation can not be conducted. For the following examples, Error message will be produced:`supply both 'x' and 'y' or a matrix-like 'x'`.
 ```{r}
+#x<-matrix(rnorm(5000,min=0,max=100),20,50)
+#modified_cov(x)
+#modified_cor(x)
 
 ```
 
-Since the functions are designed for complete cases, there couldn't be missing value in the given vector and matrices,eg:
-
+* Since the functions are designed for complete cases, there couldn't be missing value in the given vector and matrices. Error message `Error: missing observations in cov/cor` will be produced for following examples:
 ```{r}
-#x3<-matrix(runif(5000,min=0,max=100),20,50)
-#x3[10,6]=NA
-#modified_cov(x3) # Error: missing observations in cov/cor
+#x<-matrix(rnorm(5000,min=0,max=100),20,50)
+#x[10,6]=NA
+#modified_cov(x) 
+#modified_cor(x)
 ```
 
 
-If both x,y are provided, then they should have compatible dimensions for matrix production operations.Incompatible dimensions will lead to error:
+* If both `x`,`y` are provided, then they should have compatible dimensions for matrix production operations.Incompatible dimensions will lead to error message `incompatible dimensions`:
 ```{r}
+#x<-matrix(rnorm(50,0,1),5,10)
+#y<-matrix(rnorm(50,0,1),10,5)
+#(m1<-modified_cov(x,y))
+#(m2<-modified_cor(x,y))
 
 ```
 
-Numeric arguments(or logical) are expected as inputs. Inputs with character elements or are not atomic vectors can not be calculated.
+
+* Numeric arguments(or logical) are expected as inputs. Inputs with character elements or are not atomic vectors can not be calculated, error will occur for both examples below: 
 ```{r}
-#modified_cov(c(1,"def",TRUE,"abc"),c(1,2,3,4)) # Error: ((is.numeric(x) || is.logical(x)) & is.atomic(x)) is not TRUE
+#modified_cov(c(1,"def",TRUE,"abc"),c(1,2,3,4))
+#modified_cor(c(1,"def",TRUE,"abc"),c(1,2,3,4))
 ```
 
 
 ## Comparation with base R codes:
 
-This part compares mypackage functions to their base R equivalents. This shows users the difference and restrictions on using mypackage function comparing to base R functions. It also helps users to know how the functions perform on accuracy and effectiveness compared to original functions.
+This part compares `mypackage` functions to their base R equivalents. It helps users to know how the functions perform on accuracy and effectiveness compared to original R functions(`cor()`,`cov()`).
+
+The default parameters of `cor()` and `cov()` are:
+
+   -`cor(x,y=NULL, use="all.obs",method="pearson")`
+   
+   -`cov(x,y=NULL, use="all.obs",method="pearson")` 
+
+
+* Correctness:
 ```{r}
 
 ```
 
-   
+* Efficiency:
 
+Here, efficiency comparision of `modified_cov()` vs. `cov()`, `modified_cor()` vs. `cor()` can be conducted by using `bench::mark()`. 
+
+```{r}
+# modified_cov() vs. cov()
+#result1 = bench::mark(modified_cov(), 
+#isprime(2^17-1)==2, is.prime(2^17-1))
+
+#print(result1)
+
+#plot(result1)
+```
 

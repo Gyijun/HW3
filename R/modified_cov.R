@@ -24,12 +24,12 @@
 #'modified_cov(c(1,3,5,FALSE),c(FALSE,TRUE,1,3)) # -1.083333
 #'
 #'## x,y are matrices/vectors
-#'x1<-matrix(runif(10,min=0,max=100),10,10)
-#'y1<-c(runif(10,min=0,max=100))
+#'x1<-matrix(rnorm(1000,min=0,max=100),100,10)
+#'y1<-c(rnorm(100,min=0,max=100))
 #'stopifnot(all.equal(cov(x1,y1,use="all.obs",method="pearson"), modified_cov(x1,y1)))
 #'
 #'
-#'@import Rcpp stats devtools bench
+#'@import Rcpp stats devtools bench corrplot
 #'
 #'@export
 #'
@@ -59,8 +59,6 @@ modified_cov=function (x, y = NULL){
   }
 
   #Import rcpp function "mat" to calculate product of matrices
-  #sourceCpp("src/code.cpp")
-
   if (!is.null(y)){
     #Both x,y are matrices
     if (isTRUE(nrow(x)==nrow(y)&(is.null(nrow(x))==FALSE))){

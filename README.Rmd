@@ -29,17 +29,19 @@ The goal of mypackage is to calculate covariances and pearson correlation betwee
 
 ## Installation
 
-You can install the development version of mypackage from [GitHub](https://github.com/) with:
+You can install the development version of `mypackage` from [GitHub](https://github.com/) with:
 
 ``` {r}
 #install.packages("devtools")
 #library(devtools)
 devtools::install_github("Gyijun/mypackage", build_vignettes = T)
 ```
+To install `mypackage`, you might also need to install `devtools` package. See detailed instruction in the [tutorial](https://github.com/Gyijun/mypackage/blob/master/vignettes/mypackage.Rmd) .
+
 
 ## Usage
 
-You can apply functions of mypackage by below operations:
+You can load `mypackage` by the following codes:
 
 ```{r }
 library(mypackage)

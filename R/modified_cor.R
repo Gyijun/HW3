@@ -24,12 +24,12 @@
 #'modified_cor(c(1,2,3,TRUE,FALSE),c(FALSE,TRUE,4,7,0)) # 0.3019786
 #'
 #'## Both x,y are matrices
-#'x1<-matrix(runif(100,min=0,max=100),10,10)
-#'y1<-c(runif(10,min=0,max=100))
+#'x1<-matrix(rnorm(500,min=0,max=100),50,10)
+#'y1<-c(rnorm(50,min=0,max=100))
 #'stopifnot(all.equal(cor(x1,y1,use="all.obs",method="pearson"), modified_cor(x1,y1)))
 #'
 #'
-#'@import Rcpp stats devtools bench
+#'@import Rcpp stats devtools bench corrplot
 #'
 #'@export
 #'
@@ -62,8 +62,6 @@ modified_cor=function (x, y=NULL){
   }
 
   #Import rcpp function "mat" to calculate product of matrices
-  #sourceCpp("src/code.cpp")
-
   if (!is.null(y)){
     #Both x,y are matrices
     if (isTRUE(nrow(x)==nrow(y)&(is.null(nrow(x))==FALSE))){
