@@ -22,6 +22,9 @@ A matrix/data frame for \code{x} or both \code{x}, \code{y} vectors/matrices sho
 The inputs must be numeric or logical, without missing values. For \code{modified_cov()}, covariances will be calculated under method \code{pearson}, which produces same results for function \code{cov(x,y,use="all.obs", method="pearson")}
 The denominator \code{n-1} is used when computing unbiased estimators of the covariances for i.i.d. observations(when only one observation for both \code{x}, \code{y} are given, the function will return \code{NaN}).
 }
+\note{
+Pearson method performs better on normal distributed samples.While Spearman and Kendall methods are usually applied on samples that are not in normal distribution.
+}
 \examples{
 ## For complete matrices and vectors with compatible dimensions.
 ## x,y are both vectors with one element

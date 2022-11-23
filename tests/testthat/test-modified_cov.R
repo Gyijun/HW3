@@ -64,7 +64,7 @@ test_that("pearson correlation works", {
   x<-matrix(rnorm(5000,0,10),100,50)
   x[10,6]=NA
   y<-matrix(rnorm(5000,0,10),100,50)
-  expect_error(modified_cov(x),"missing observations in cov/cor")
+  expect_error(modified_cov(x,y),"missing observations in cov/cor")
 })
 
 
