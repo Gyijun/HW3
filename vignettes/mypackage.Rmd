@@ -1,5 +1,5 @@
 ---
-title: "Introduction to mypackage"
+title: "Introduction of mypackage"
 output: rmarkdown::html_vignette
 author: 
    -Yijun Guo
@@ -118,20 +118,22 @@ y<-matrix(rnorm(50,0,1),5,10)
 ```
 
 * We can plot the result of pearson correlation computation:
-```{r}
+```{r, fig.height = 6,fig.width = 6}
 corrplot(m2)
 ```
 
 * We can also apply the functions on data frame objects. Here we use `mtcars`, an internal data set in R. The data set includes 32 observations and 11 variables. We select columns`drat`, `qsec` and `wt` as inputs of functions.
 
 ```{r}
-
 dat<-mtcars[,c("qsec","wt","drat")]
 (m3<-modified_cov(dat))
 (m4<-modified_cor(dat))
 mymatrix<-matrix(m4,nrow = ncol(m4),byrow = TRUE,dimnames=list(c("qsec","wt","drat"),c("qsec","wt","drat")))
-corrplot(mymatrix)
 
+```
+
+```{r, fig.height = 6,fig.width = 6}
+corrplot(mymatrix)
 ```
 
 * We can see that there's high correlation between "wt" and "drat" variables. The restriction of `mypackage` function is that variable names cannot be added automatically to the result correlation/covariance matrices, which need more revision in the future versions.
@@ -203,27 +205,81 @@ This part compares `mypackage` functions to their base R equivalents. It helps u
 
 The default parameters of `cor()` and `cov()` are:
 
-   -`cor(x,y=NULL, use="all.obs",method="pearson")`
+   * `cor(x,y=NULL, use="all.obs",method="pearson")`
    
-   -`cov(x,y=NULL, use="all.obs",method="pearson")` 
+   * `cov(x,y=NULL, use="all.obs",method="pearson")` 
 
 
 * Correctness:
+
+  -We can use all.equal to compare the results of `mypackage` function with base R functions:
+  
 ```{r}
+#Vector computing
+v11<-modified_cov(c(1,3,5,FALSE),c(FALSE,TRUE,1,3)) 
+v12<-cov(c(1,3,5,FALSE),c(FALSE,TRUE,1,3),use="all.obs",method="pearson")
+all.equal(v11,v12)
+
+v21<-modified_cor(c(1,3,5,FALSE),c(FALSE,TRUE,1,3)) 
+v22<-cor(c(1,3,5,FALSE),c(FALSE,TRUE,1,3),use="all.obs",method="pearson")
+all.equal(v21,v22)
+
+#One is vector, the other is matrix
+x<-matrix(rnorm(1000,0,1),100,10)
+y<-c(rnorm(100,0,1))
+v31<-modified_cov(x,y)
+v32<-cov(x,y,use="all.obs",method="pearson")
+all.equal(v31,v32)
+
+v41<-modified_cor(x,y)
+v42<-cor(x,y,use="all.obs",method="pearson")
+all.equal(v41,v42)
+
+# Matrices computing
+x<-matrix(rnorm(1000,0,10),100,10)
+y<-matrix(rnorm(1000,0,10),100,10)
+v51<-modified_cov(x,y)
+v52<-cov(x,y,use="all.obs",method="pearson")
+all.equal(v51,v52)
+
+v61<-modified_cor(x,y)
+v62<-cor(x,y,use="all.obs",method="pearson")
+all.equal(v61,v62)
 
 ```
 
 * Efficiency:
 
-Here, efficiency comparision of `modified_cov()` vs. `cov()`, `modified_cor()` vs. `cor()` can be conducted by using `bench::mark()`. 
+ - Efficiency comparision of `modified_cov()` vs. `cov()`, `modified_cor()` vs. `cor()` can be conducted by using `bench::mark()`. To use `bench::mark()`, package `bench` should be installed in advance. Here, we will mainly compare the performance when two matrices or one matrices is given.
 
 ```{r}
-# modified_cov() vs. cov()
-#result1 = bench::mark(modified_cov(), 
-#isprime(2^17-1)==2, is.prime(2^17-1))
+#Example 1
+x<-matrix(rnorm(1000000,0,10),10000,100)
+y<-matrix(rnorm(1000000,0,10),10000,100)
+result1 = bench::mark(modified_cov(x,y), cov(x,y,use="all.obs",method="pearson"))
+result2 = bench::mark(modified_cor(x,y), cor(x,y,use="all.obs",method="pearson"))
 
-#print(result1)
+print(result1)
+print(result2)
 
-#plot(result1)
+#Example 2
+x<-matrix(rnorm(1000000,0,10),10000,100)
+result3 = bench::mark(modified_cov(x), cov(x,use="all.obs",method="pearson"))
+result4 = bench::mark(modified_cor(x), cor(x,use="all.obs",method="pearson"))
+
+print(result3)
+print(result4)
+
+
 ```
+
+
+```{r, fig.height = 6,fig.width = 8}
+plot(result1)
+plot(result2)
+
+plot(result3)
+plot(result4)
+```
+
 
