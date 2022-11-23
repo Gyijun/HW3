@@ -13,6 +13,8 @@
 #'The inputs must be numeric or logical, without missing values. For \code{modified_cor()}, pearson correlation will be calculated, which produces same results for function \code{cor(x,y,use="all.obs", method="pearson")}
 #'The denominator \code{n-1} is used when computing unbiased estimators of the covariances for i.i.d. observations(when only one observation for both \code{x}, \code{y} are given, the function will return \code{NaN}).
 #'
+#'@note Pearson method performs better on normal distributed samples.While Spearman and Kendall methods are usually applied on samples that are not in normal distribution.
+#'
 #'@seealso \code{\link[=modified_cov]{modified_cov()}} for covariance computation for complete vectors/matrices.
 #'
 #'@examples
@@ -23,7 +25,7 @@
 #'## x,y are both vectors
 #'modified_cor(c(1,2,3,TRUE,FALSE),c(FALSE,TRUE,4,7,0)) # 0.3019786
 #'
-#'## Both x,y are matrices
+#'## One of x,y is a matrix, and the other is a vector
 #'x1<-matrix(rnorm(500,0,1),50,10)
 #'y1<-c(rnorm(50,0,1))
 #'stopifnot(all.equal(cor(x1,y1,use="all.obs",method="pearson"), modified_cor(x1,y1)))
@@ -66,33 +68,36 @@ modified_cor=function (x, y=NULL){
     #Both x,y are matrices
     if (isTRUE(nrow(x)==nrow(y)&(is.null(nrow(x))==FALSE))){
       cov<-mat((t(x)-colMeans(x)),t(t(y)-colMeans(y)))/(nrow(x)-1)
-      sy<-apply(y,2,sd)
-      sx<-apply(x,2,sd)
-      cor<-cov/(sx%*%t(sy))
+      cor<-matrix(0,nrow(cov),ncol(cov))
+      for (i in 1:nrow(cov)){
+        for (j in 1:ncol(cov)){
+          cor[i,j]<-cov[i,j]/(sd(x[,i])*sd(y[,j]))
+        }
+      }
       return(cor)
     }
     #Both x,y are vectors
     else if (isTRUE(length(x)==length(y)&(is.null(nrow(x))==TRUE))){ #Both x,y are matrices
       cov<-as.numeric(t(x-mean(x))%*%(y-mean(y))/(length(x)-1))
-      sy<-sd(y)
-      sx<-sd(x)
-      cor<-cov/(sx*sy)
+      cor<-as.numeric(cov/(sd(x)*sd(y)))
       return(cor)
     }
     #One of x,y is matrix, the other is vector
     else if (isTRUE(nrow(x)==length(y)&(is.null(nrow(y))==TRUE))){
       cov<-(t(x)-colMeans(x))%*%(y-mean(y))/(nrow(x)-1)
-      sy<-sd(y)
-      sx<-apply(x,2,sd)
-      cor<-cov/(sy*sx)
+      cor<-matrix(0,length(cov),1)
+      for (i in 1:nrow(cov)){
+        cor[i]<-cov[i]/(sd(x[,i])*sd(y))
+      }
       return(cor)
     }
     else if (isTRUE(length(x)==nrow(y)&(is.null(nrow(x))==TRUE))){
-      cov<-t((t(y)-colMeans(y))%*%(x-mean(x))/(nrow(y)-1))
-      sx<-sd(x)
-      sy<-apply(y,2,sd)
-      cor<-cov/(sy*sx)
-      return(cor)
+      cov<-(t(y)-colMeans(y))%*%(x-mean(x))/(nrow(y)-1)
+      cor<-matrix(0,length(cov),1)
+      for (i in 1:nrow(cov)){
+        cor[i]<-cov[i]/(sd(x)*sd(y[,i]))
+      }
+      return(t(cor))
     }
     else
       stop("incompatible dimensions")
@@ -100,8 +105,12 @@ modified_cor=function (x, y=NULL){
   #x is matrix, y is NULL
   else if(is.null(y)){
     cov<-mat((t(x)-colMeans(x)),t(t(x)-colMeans(x)))/(nrow(x)-1)
-    sx<-apply(x,2,sd)
-    cor<-cov/(sx%*%t(sx))
+    cor<-matrix(0,nrow(cov),ncol(cov))
+    for (i in 1:nrow(cov)){
+      for (j in 1:ncol(cov)){
+        cor[i,j]<-cov[i,j]/(sd(x[,i])*sd(x[,j]))
+      }
+    }
     return(cor)
   }
 }

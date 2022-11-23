@@ -27,6 +27,15 @@ The goal of mypackage is to calculate covariances and pearson correlation betwee
 
 -   `modified_cor()` conducts pearson correlation computing between vectors and columns of matrices with complete cases
 
+The calculation is conducted based on the following fomulas:
+
+$$
+\begin{aligned}
+&cov(X,Y)=E[(X- μ_{x})(Y-μ_{y})]\\
+&r_{xy}=\frac{\sum\limits_{i=1}^n(x_{i}-\bar{x})(y_{i}-\bar{y})}{(n-1)s_{x}s_{y}}\\
+\end{aligned}
+$$
+
 ## Installation
 
 You can install the development version of `mypackage` from [GitHub](https://github.com/) with:
@@ -57,6 +66,5 @@ Here are some basic examples to apply `modified_cov()` and `modified_cor()`:
 
 #pearson correlation computing
 (cor<-modified_cor(c(rnorm(100,0,1)),c(rnorm(100,0,1))))
-
 
 ```

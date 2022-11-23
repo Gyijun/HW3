@@ -30,9 +30,9 @@ modified_cov(1,1) # NaN
 ## x,y are both vectors
 modified_cov(c(1,3,5,FALSE),c(FALSE,TRUE,1,3)) # -1.083333
 
-## x,y are matrices/vectors
-x1<-matrix(rnorm(1000,min=0,max=100),100,10)
-y1<-c(rnorm(100,min=0,max=100))
+## One of x,y is a matrix, and the other is a vector
+x1<-matrix(rnorm(1000,0,1),100,10)
+y1<-c(rnorm(100,0,1))
 stopifnot(all.equal(cov(x1,y1,use="all.obs",method="pearson"), modified_cov(x1,y1)))
 
 
