@@ -29,7 +29,7 @@ library(mypackage)
 library(devtools)
 library(bench)
 library(corrplot)
-library(ggplot)
+library(ggplot2)
 
 ```
 
@@ -254,33 +254,42 @@ all.equal(v61,v62)
  - Efficiency comparision of `modified_cov()` vs. `cov()`, `modified_cor()` vs. `cor()` can be conducted by using `bench::mark()`. To use `bench::mark()`, package `bench` should be installed in advance. Here, we will mainly compare the performance when two matrices or one matrices is given.
 
 ```{r}
-#Example 1
+#modified_cov() vs. cov()
 x<-matrix(rnorm(1000000,0,10),10000,100)
 y<-matrix(rnorm(1000000,0,10),10000,100)
 result1 = bench::mark(modified_cov(x,y), cov(x,y,use="all.obs",method="pearson"))
-result2 = bench::mark(modified_cor(x,y), cor(x,y,use="all.obs",method="pearson"))
+result2 = bench::mark(modified_cov(x), cov(x,use="all.obs",method="pearson"))
 
-print(result1)
-print(result2)
 
-#Example 2
-x<-matrix(rnorm(1000000,0,10),10000,100)
-result3 = bench::mark(modified_cov(x), cov(x,use="all.obs",method="pearson"))
+test1<-summary(result1)
+itr.per.sec <- as.numeric(test1[[4]])
+(ratio<-itr.per.sec [1]/itr.per.sec [2])
+
+test2<-summary(result2)
+itr.per.sec <- as.numeric(test2[[4]])
+(ratio2<-itr.per.sec [1]/itr.per.sec [2])
+
+```
+ - We can see from results that when applying `modified_cov()` on matrices, the computing speed of `modified_cov()` is faster than `cov()`. In test1, the ratio of speed is about `r round(ratio, digits = 2)` , while in test2, the ratio is about `r round(ratio2, digits = 2)`.
+
+
+```{r}
+# modified_cor() vs. cor()
+x<-matrix(rnorm(10000,0,10),100,100)
+y<-matrix(rnorm(10000,0,10),100,100)
+result3 = bench::mark(modified_cor(x,y), cor(x,y,use="all.obs",method="pearson"))
 result4 = bench::mark(modified_cor(x), cor(x,use="all.obs",method="pearson"))
 
-print(result3)
-print(result4)
+test3<-summary(result3)
+itr.per.sec <- as.numeric(test3[[4]])
+(ratio<-itr.per.sec [1]/itr.per.sec [2])
 
-
+test4<-summary(result4)
+itr.per.sec <- as.numeric(test4[[4]])
+(ratio2<-itr.per.sec [1]/itr.per.sec [2])
 ```
+ - The computing of correlation does not perform as well as covariance. We can see from results that when applying `modified_cor()` on matrices, the computing speed of `modified_cor()` is slower than `cor()`. In test1, the ratio of speed is about `r round(ratio, digits = 2)` , while in test2, the ratio is about `r round(ratio2, digits = 2)`.
 
 
-```{r, fig.height = 6,fig.width = 8}
-plot(result1)
-plot(result2)
-
-plot(result3)
-plot(result4)
-```
 
 

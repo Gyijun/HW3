@@ -29,7 +29,7 @@
 #'stopifnot(all.equal(cor(x1,y1,use="all.obs",method="pearson"), modified_cor(x1,y1)))
 #'
 #'
-#'@import Rcpp stats devtools bench corrplot ggplot
+#'@import Rcpp stats devtools bench corrplot ggplot2
 #'
 #'@export
 #'
@@ -66,36 +66,33 @@ modified_cor=function (x, y=NULL){
     #Both x,y are matrices
     if (isTRUE(nrow(x)==nrow(y)&(is.null(nrow(x))==FALSE))){
       cov<-mat((t(x)-colMeans(x)),t(t(y)-colMeans(y)))/(nrow(x)-1)
-      cor<-matrix(0,nrow(cov),ncol(cov))
-      for (i in 1:nrow(cov)){
-        for (j in 1:ncol(cov)){
-          cor[i,j]<-cov[i,j]/(sd(x[,i])*sd(y[,j]))
-        }
-      }
+      sy<-apply(y,2,sd)
+      sx<-apply(x,2,sd)
+      cor<-cov/(sx%*%t(sy))
       return(cor)
     }
     #Both x,y are vectors
     else if (isTRUE(length(x)==length(y)&(is.null(nrow(x))==TRUE))){ #Both x,y are matrices
       cov<-as.numeric(t(x-mean(x))%*%(y-mean(y))/(length(x)-1))
-      cor<-as.numeric(cov/(sd(x)*sd(y)))
+      sy<-sd(y)
+      sx<-sd(x)
+      cor<-cov/(sx*sy)
       return(cor)
     }
     #One of x,y is matrix, the other is vector
     else if (isTRUE(nrow(x)==length(y)&(is.null(nrow(y))==TRUE))){
       cov<-(t(x)-colMeans(x))%*%(y-mean(y))/(nrow(x)-1)
-      cor<-matrix(0,ncol(x),1)
-      for (i in 1:nrow(cov)){
-        cor[i]<-cov[i]/(sd(x[,i])*sd(y))
-      }
+      sy<-sd(y)
+      sx<-apply(x,2,sd)
+      cor<-cov/(sy*sx)
       return(cor)
     }
     else if (isTRUE(length(x)==nrow(y)&(is.null(nrow(x))==TRUE))){
-      cov<-(t(y)-colMeans(y))%*%(x-mean(x))/(nrow(y)-1)
-      cor<-matrix(0,ncol(y),1)
-      for (i in 1:nrow(cov)){
-        cor[i]<-cov[i]/(sd(x)*sd(y[,i]))
-      }
-      return(t(cor))
+      cov<-t((t(y)-colMeans(y))%*%(x-mean(x))/(nrow(y)-1))
+      sx<-sd(x)
+      sy<-apply(y,2,sd)
+      cor<-cov/(sy*sx)
+      return(cor)
     }
     else
       stop("incompatible dimensions")
@@ -103,12 +100,8 @@ modified_cor=function (x, y=NULL){
   #x is matrix, y is NULL
   else if(is.null(y)){
     cov<-mat((t(x)-colMeans(x)),t(t(x)-colMeans(x)))/(nrow(x)-1)
-    cor<-matrix(0,nrow(cov),ncol(cov))
-    for (i in 1:nrow(cov)){
-      for (j in 1:ncol(cov)){
-        cor[i,j]<-cov[i,j]/(sd(x[,i])*sd(x[,j]))
-      }
-    }
+    sx<-apply(x,2,sd)
+    cor<-cov/(sx%*%t(sx))
     return(cor)
   }
 }

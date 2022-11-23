@@ -29,7 +29,7 @@
 #'stopifnot(all.equal(cov(x1,y1,use="all.obs",method="pearson"), modified_cov(x1,y1)))
 #'
 #'
-#'@import Rcpp stats devtools bench corrplot ggplot
+#'@import Rcpp stats devtools bench corrplot ggplot2
 #'
 #'@export
 #'
@@ -76,8 +76,8 @@ modified_cov=function (x, y = NULL){
       return(cov)
     }
     else if (isTRUE(length(x)==nrow(y)&(is.null(nrow(x))==TRUE))){
-      cov<-(t(y)-colMeans(y))%*%(x-mean(x))/(nrow(y)-1)
-      return(t(cov))
+      cov<-t((t(y)-colMeans(y))%*%(x-mean(x))/(nrow(y)-1))
+      return(cov)
     }
     else
       stop("incompatible dimensions")
