@@ -80,5 +80,11 @@ test_that("pearson correlation works", {
   expect_error(modified_cor(c(1,"def",TRUE,"abc"),c(1,2,3,4)),"'x' must be numeric")
 })
 
+## Not numeric2
+test_that("pearson correlation works", {
+  expect_error(modified_cor(c(1,2,3,4),c(1,2,3,"abc")),"'y' must be numeric")
+})
+
+
 
 
