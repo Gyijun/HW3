@@ -59,6 +59,15 @@ test_that("pearson correlation works", {
   expect_error(modified_cor(x),"missing observations in cov/cor")
 })
 
+## Missing value2
+test_that("pearson correlation works", {
+  x<-matrix(rnorm(5000,0,10),100,50)
+  x[10,6]=NA
+  y<-matrix(rnorm(5000,0,10),100,50)
+  expect_error(modified_cor(x),"missing observations in cov/cor")
+})
+
+
 ## Incompatible dimensions
 test_that("pearson correlation works", {
   x<-matrix(rnorm(50,0,1),5,10)
