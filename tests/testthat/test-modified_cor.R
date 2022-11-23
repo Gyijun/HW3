@@ -44,3 +44,32 @@ test_that("pearson correlation works", {
   Cm<-array(modified_cor(x),dim=length(modified_cor(x)),dimnames=NULL)
   expect_equal(Cm, C5)
 })
+
+# Error conditions
+## One vector
+test_that("pearson correlation works", {
+  x<-c(rnorm(5000,0,1))
+  expect_error(modified_cor(x),"supply both 'x' and 'y' or a matrix-like 'x'")
+})
+
+## Missing value
+test_that("pearson correlation works", {
+  x<-matrix(rnorm(5000,0,10),100,50)
+  x[10,6]=NA
+  expect_error(modified_cor(x),"missing observations in cov/cor")
+})
+
+## Incompatible dimensions
+test_that("pearson correlation works", {
+  x<-matrix(rnorm(50,0,1),5,10)
+  y<-matrix(rnorm(50,0,1),10,5)
+  expect_error(modified_cor(x,y),"incompatible dimensions")
+})
+
+## Not numeric
+test_that("pearson correlation works", {
+  expect_error(modified_cor(c(1,"def",TRUE,"abc"),c(1,2,3,4)),"'x' must be numeric")
+})
+
+
+
